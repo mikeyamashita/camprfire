@@ -1,0 +1,7 @@
+{
+  "name": "camprfire",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
