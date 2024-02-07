@@ -41,16 +41,13 @@ export class HomePage {
     });
 
     this.map = new Map({
-      view: new View({
-        center: geolocation.getPosition(),
-        zoom: 6,
-      }),
       layers: [
         new TileLayer({
           source: new OSM(),
         }),
         new TileLayer({
           // extent: [309296.0823999997, 5457305.4717999995, 581790.3634000001, 6015812.6974],
+          // minZoom: 5,
           source: new TileArcGISRest({
             url: 'https://geospatial.alberta.ca/titan/rest/services/base/land_use_management_10tm_nad83_aep/MapServer/',
             params: {
@@ -66,13 +63,29 @@ export class HomePage {
             transition: 0,
           }),
         }),
+        new TileLayer({
+          extent: [-15479220.2217451855540276, 6045873.0184186315163970, -12292755.2399892900139093, 8534215.4796979445964098],
+          // minZoom: 6,
+          source: new TileWMS({
+            url: 'https://openmaps.gov.bc.ca/geo/pub/WHSE_FOREST_TENURE.FTEN_REC_SITE_POINTS_SVW/ows',
+            params: { 'layers': 'pub:WHSE_FOREST_TENURE.FTEN_REC_SITE_POINTS_SVW', 'legend_format': 'image%2Fpng', 'feature_info_type': 'text%2Fplain', 'dpiMode': '7' },
+            serverType: 'geoserver',
+            transition: 0,
+          }),
+        }),
+
       ],
+      view: new View({
+        center: geolocation.getPosition(),
+        zoom: 7.5,
+      }),
       target: 'ol-map'
     });
 
     geolocation.on('change', (evt) => {
       this.map.getView().setCenter(geolocation.getPosition());
       console.log(geolocation.getPosition());
+      console.log(this.map.getView().getZoom())
     });
 
     // listen to error
@@ -102,12 +115,13 @@ export class HomePage {
       })
     );
 
-    geolocation.on('change:position', function () {
+    geolocation.on('change:position', () => {
       const coordinates: any = geolocation.getPosition();
       let feature: Feature = new Feature()
       feature.getGeometry()
       positionFeature.setGeometry(new Point(coordinates))
     });
+
 
     new VectorLayer({
       map: this.map,
@@ -116,9 +130,9 @@ export class HomePage {
       }),
     });
 
-    setTimeout(() => {
-      geolocation.setTracking(true)
-    }, 2000)
+    // setTimeout(() => {
+    geolocation.setTracking(true)
+    // }, 2000)
   }
 
   ionViewDidEnter() {
