@@ -1,5 +1,9 @@
 GIS layers for current forest fires in relation to Alberta public use zones and BC rec areas/sites
 
+Tools used:
+QGIS to set up layers
+Ionic Framework, Angular, OpenLayers to create web and mobile visualization
+
 References:
 https://cwfis.cfs.nrcan.gc.ca/datamart/metadata/nfdbpnt
 https://geospatial.alberta.ca/titan/rest/services/base/land_use_management_10tm_nad83_aep/MapServer
